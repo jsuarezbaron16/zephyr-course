@@ -1,0 +1,133 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    // ===== INTERACTIVE TASKS (manual use) =====
+    {
+      "label": "Compile",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build.sh",
+      "args": [
+        "${input:board}",
+        "${workspaceFolder}",
+        "incremental"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build.sh",
+      "args": [
+        "${input:board}",
+        "${workspaceFolder}",
+        "rebuild"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/clean.sh",
+      "args": [
+        "${input:board}",
+        "${workspaceFolder}"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Flash",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/flash.sh",
+      "args": [
+        "${input:board}",
+        "${workspaceFolder}"
+      ],
+      "dependsOn": "Compile",
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    // ===== NON-INTERACTIVE TASKS (used by debug) =====
+    {
+      "label": "Compile STM32",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build.sh",
+      "args": [
+        "nucleo_f401re",
+        "${workspaceFolder}",
+        "incremental"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile ESP32",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build.sh",
+      "args": [
+        "esp32",
+        "${workspaceFolder}",
+        "incremental"
+      ],
+      "problemMatcher": []
+    },
+    // ===== OPTIONAL: FULL REBUILD PER BOARD =====
+    {
+      "label": "Build STM32",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build.sh",
+      "args": [
+        "nucleo_f401re",
+        "${workspaceFolder}",
+        "rebuild"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build ESP32",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/build.sh",
+      "args": [
+        "esp32",
+        "${workspaceFolder}",
+        "rebuild"
+      ],
+      "problemMatcher": []
+    },
+    // ===== OPTIONAL: CLEAN PER BOARD =====
+    {
+      "label": "Clean STM32",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/clean.sh",
+      "args": [
+        "nucleo_f401re",
+        "${workspaceFolder}"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean ESP32",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/clean.sh",
+      "args": [
+        "esp32",
+        "${workspaceFolder}"
+      ],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "board",
+      "type": "pickString",
+      "description": "Select board",
+      "options": [
+        "nucleo_f401re",
+        "esp32"
+      ],
+      "default": "nucleo_f401re"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug STM32 (NUCLEO-F401RE)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "svdFile": "${workspaceFolder}/boards/STM32F401.svd",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/build-nucleo_f401re/zephyr/zephyr.elf",
+      "servertype": "openocd",
+      "device": "STM32F401RE",
+      "interface": "swd",
+      "gdbPath": "${env:HOME}/zephyr-course/sdk/zephyr-sdk-1.0.1/gnu/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
+      "serverpath": "${env:HOME}/zephyr-course/sdk/zephyr-sdk-1.0.1/hosttools/sysroots/x86_64-pokysdk-linux/usr/bin/openocd",
+      "configFiles": [
+        "interface/stlink.cfg",
+        "target/stm32f4x.cfg"
+      ],
+      "serverArgs": [
+        "-c", "transport select hla_swd",
+        "-c", "adapter speed 4000",
+        "-c", "reset_config srst_only srst_nogate connect_assert_srst"
+      ],
+      "runToEntryPoint": "main",
+      "preLaunchCommands": [
+        "monitor reset init"
+      ],
+      "postLaunchCommands": [
+        "monitor reset init",
+        "load"
+      ],
+      "showDevDebugOutput": "raw"
+    },
+
+    {
+      "name": "Debug ESP32 (ESP32 DEVKIT V1 - JTAG)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "svdFile": "${workspaceFolder}/boards/esp32.svd",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/build-esp32/zephyr/zephyr.elf",
+      "servertype": "openocd",
+      "device": "esp32",
+      "interface": "jtag",
+      "gdbPath": "${env:HOME}/zephyr-course/sdk/zephyr-sdk-1.0.1/gnu/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
+      "toolchainPrefix": "arm-zephyr-eabi",
+      "openOCDPath": "${env:HOME}/esp/openocd-esp32/bin/openocd",
+      "serverpath": "${env:HOME}/esp/openocd-esp32/bin/openocd",
+      "configFiles": [
+        "interface/ftdi/esp32_devkitj_v1.cfg",
+        "target/esp32.cfg"
+      ],
+      "runToEntryPoint": "app_main",
+      "preLaunchTask": "Compile ESP32",
+      "svdFile": "${workspaceFolder}/build-esp32/zephyr/zephyr.svd",
+      "showDevDebugOutput": "raw"
+    }
+  ]
+}

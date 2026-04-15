@@ -1,0 +1,83 @@
+menuconfig LED_SUBSYSTEM
+    bool "LED Subsystem"
+    default y
+    help
+      Master switch for the LED control logic.
+
+if LED_SUBSYSTEM
+
+    choice
+        prompt "Blink interval"
+        default BLINK_SLEEP_1000
+        help
+          Select the delay between LED state changes.
+
+        config BLINK_SLEEP_250
+            bool "250ms (Fast)"
+        config BLINK_SLEEP_500
+            bool "500ms (Normal)"
+        config BLINK_SLEEP_1000
+            bool "1s (Slow)"
+        config BLINK_SLEEP_2000
+            bool "2s (Very Slow)"
+        config BLINK_SLEEP_CUSTOM
+            bool "Manual entry..."
+    endchoice
+
+    config BLINK_SLEEP_CUSTOM_VALUE
+        int "Enter value (250-3000)"
+        range 250 3000
+        default 250
+        depends on BLINK_SLEEP_CUSTOM 
+
+    config BLINK_SLEEP_MS
+        int
+        default 250 if BLINK_SLEEP_250
+        default 500 if BLINK_SLEEP_500       
+        default 1000 if BLINK_SLEEP_1000
+        default 2000 if BLINK_SLEEP_2000
+        default BLINK_SLEEP_CUSTOM_VALUE if BLINK_SLEEP_CUSTOM
+        help
+            Actual sleep time in ms.
+
+    menuconfig ADVANCED_LED_SETTINGS
+        bool "Advanced LED settings"
+        default n
+
+    if ADVANCED_LED_SETTINGS
+
+        config LED_BRIGHTNESS
+            int "Brightness level (0-100)"
+            range 0 100
+            default 100
+
+
+        config LED_FADE_DURATION_MS
+            int "Fade transition time (ms)"
+            range 0 5000
+            default 500
+
+        menu "Developer settings"
+            visible if ADVANCED_LED_SETTINGS
+
+            config LED_DEBUG
+                bool "Enable LED logging"
+                default y
+                help
+                  Enables debug output for the LED subsystem.
+
+            config BLINK_PATTERN
+                bool "Custom blink pattern"
+                default n
+                help
+                  Not implemented...
+
+        endmenu
+
+    endif
+
+endif # LED_SUBSYSTEM
+
+menu "Zephyr Kernel and Subsystems"
+    source "${ZEPHYR_BASE}/Kconfig.zephyr"
+endmenu

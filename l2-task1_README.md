@@ -19,7 +19,7 @@
 - LED toggles every 500ms
 - Verified LED state via UART logs
 - Video output attached: 
-                         Blinky_Task1.mp4
+                         [📎 Download/View Video: Blinky_Task1.mp4](./Blinky_Task1.mp4)
 						 
 ### Notes:
 - I used the `west` build system to manage the project:
